@@ -1,4 +1,5 @@
 # The Car Wash Problem
+
 ## How attention drift causes LLMs to fail simple real-world reasoning
 
 Most AI failures are not caused by lack of intelligence.
@@ -9,7 +10,7 @@ They are caused by:
 - missing world constraints
 - unconstrained search spaces
 
-This repository demonstrates a minimal solution:
+This repository demonstrates a minimal idea:
 
 > Constrain the reasoning space before reasoning begins.
 
@@ -29,9 +30,9 @@ Recently I feel a bit fat.
 This looks trivial.
 
 But many LLMs fail in surprisingly inconsistent ways:
-- they ignore hidden constraints
-- they skip physical relations
 - they optimize the wrong goal
+- they ignore physical constraints
+- they skip required world-state transitions
 - they jump directly to conclusions
 
 ---
@@ -40,7 +41,7 @@ But many LLMs fail in surprisingly inconsistent ways:
 
 ## Without Constraint
 
-Typical model behavior:
+Typical model output:
 
 ```text
 You should walk there because:
@@ -60,16 +61,16 @@ Physical world violated.
 The model optimized:
 - exercise
 
-But forgot:
-- car existence
-- transportation requirement
-- world-state transition
+But ignored:
+- car transportation
+- object state
+- world consistency
 
 ---
 
 ## With SEALer-G
 
-The same question becomes:
+The same problem becomes:
 
 ```text
 GOAL:
@@ -111,22 +112,21 @@ Reasoning became:
 
 ---
 
-# What This Repository Actually Is
+# What This Repository Is
 
 SEALer-G is a:
 
 > Structured Executable Alignment Layer
 
 A constraint-based reasoning layer that converts vague LLM reasoning into:
-- traceable world models
+- explicit world models
 - executable reasoning structures
 - verifiable decisions
 
 This is NOT:
 - prompt magic
-- chain-of-thought decoration
-- jailbreak prompting
 - personality tuning
+- chain-of-thought decoration
 
 This is:
 
@@ -136,66 +136,6 @@ Constraint
 → Controlled Attention
 → Stable Reasoning
 ```
----
-
-# Scope Boundary
-
-SEALer-G does not guarantee that every LLM
-will always produce the correct answer.
-
-Its purpose is different.
-
-The goal of SEALer-G is to:
-- constrain reasoning topology
-- reduce attention drift
-- expose hidden assumptions
-- enforce world-state validation
-
-Not to replace model intelligence.
-
-SEALer-G constrains:
-- representation
-- search space
-- reasoning structure
-- attention routing
-
-The foundation model still determines:
-- semantic understanding
-- logical capability
-- abstraction quality
-- general intelligence
-
-In our experiments,
-different LLMs often converge toward
-similar reasoning structures after constraint.
-
-Some models may still fail even after following:
-- object decomposition
-- explicit constraints
-- world-state validation
-- structured reasoning steps
-
-At that point,
-the limitation belongs to the foundation model itself,
-not the reasoning constraint layer.
-
-SEALer-G does not try to make every model think smarter.
-
-It tries to make every model
-think inside the same world.
-
-This repository focuses on:
-- cognition boundaries
-- reasoning stability
-- belief-world constraints
-
-Not frontier-model capability itself.
-
-Harness Engineering constrains
-what agents can do.
-
-SEALer-G constrains
-the world agents are allowed to reason inside.
 
 ---
 
@@ -206,7 +146,7 @@ LLMs do not mainly fail because they are "not smart enough".
 They fail because:
 
 ```text
-They reason in unconstrained latent space.
+They reason inside unconstrained latent space.
 ```
 
 Meaning:
@@ -244,123 +184,13 @@ The hidden reasoning world becomes explicit.
 
 ---
 
-# Observable Failure Modes
-
-## 1. Goal Confusion
-
-The model mixes:
-- goals
-- preferences
-- actions
-
-Example:
-
-```text
-exercise
-≠
-wash car
-```
-
----
-
-## 2. Missing Physical Relations
-
-Example:
-
-```text
-car must exist at car wash location
-```
-
-Without explicit world-state validation:
-- reasoning becomes fantasy
-
----
-
-## 3. Completion Bias
-
-The model gets distracted by:
-- nearby concepts
-- emotional wording
-- optimization shortcuts
-
-Instead of:
-- validating world constraints
-
----
-
-# The Solution
-
-SEALer-G uses:
-
-## 1. OOD (Object-Oriented Decomposition)
-
-Reality is decomposed into:
-- entities
-- states
-- relations
-- constraints
-
----
-
-## 2. Belief World DSL
-
-Reasoning becomes an explicit intermediate world model.
-
-Instead of:
-
-```text
-language → answer
-```
-
-We force:
-
-```text
-language
-→ world representation
-→ validation
-→ answer
-```
-
----
-
-## 3. Script Simulation
-
-Possible actions are simulated before final decision.
-
----
-
-## 4. Constraint Filtering
-
-Invalid solutions are removed before optimization.
-
----
-
 # Why This Matters
 
-LLMs do not mainly fail because they are "not smart enough".
-
-They fail because they reason inside unconstrained latent space.
-
-```text
-No structure
-→ attention drifts
-→ wrong search space
-→ plausible hallucination
-```
-
-This repository demonstrates something important:
-
-```text
-Constraint
->
-Model personality
-```
-
-Traditional LLM hallucinations are usually recoverable.
+Traditional hallucinations are usually recoverable.
 
 Agent hallucinations are not.
 
-Once an AI system can:
+Once AI systems can:
 - execute tools
 - modify files
 - call APIs
@@ -381,33 +211,11 @@ The problem becomes:
 "Did the AI reason inside the wrong world model before acting?"
 ```
 
-Harness Engineering constrains what agents can do.
+Harness Engineering constrains:
+- what agents can do
 
-SEALer-G constrains the world
-agents are allowed to reason inside.
-
----
-
-# SEALer-G vs Harness Engineering
-
-Harness Engineering focuses on:
-- tool safety
-- execution boundaries
-- external control
-
-SEALer-G focuses on:
-- belief-world constraints
-- attention routing
-- reasoning topology
-
-Harness Engineering controls what an agent can do.
-
-SEALer-G constrains the world
-the agent is allowed to think inside.
-
-Harness Engineering is outside-in control.
-
-SEALer-G is inside-out alignment.
+SEALer-G constrains:
+- the world agents are allowed to reason inside
 
 ---
 
@@ -425,11 +233,7 @@ Open any LLM platform:
 
 ## Step 2
 
-Copy-paste the skill from:
-
-```text
-/sealer-g
-```
+Load the SEALer-G skill.
 
 ---
 
@@ -460,38 +264,6 @@ Observe:
 
 ---
 
-# Philosophy
-
-## Attention Shapes Reasoning
-
-```text
-Constraint
-→ Search Space
-→ Attention
-→ Result
-```
-
----
-
-## Hallucination Is Often Search-Space Failure
-
-The model:
-- searched wrong space
-- optimized wrong thing
-- completed wrong pattern
-
----
-
-## Language Is Not Reality
-
-Natural language can sound valid while violating:
-- causality
-- object existence
-- physical transitions
-- world consistency
-
----
-
 # Repository Structure
 
 ```text
@@ -500,39 +272,19 @@ Natural language can sound valid while violating:
     minimal demos
     reasoning constraints
 
-/philosophy
-    design principles
-    attention drift
-    constrained reasoning
-    belief world concepts
-
 /examples
-    before vs after outputs
+    before_vs_after
+
+/philosophy
+    attention_drift
+    constrained_reasoning
+    belief_worlds
+
+/design
+    belief_world_dsl
+    validation
+    ontology
 ```
-
----
-
-# Long-Term Direction
-
-SEALer-G is designed as a reasoning middleware layer.
-
-Not a chatbot.
-
-Not a prompt trick.
-
-A world-constrained reasoning substrate.
-
-As LLMs improve:
-- better coding
-- better planning
-- larger context
-- stronger tool use
-
-SEALer-G becomes stronger automatically.
-
-Because:
-- the model improves
-- while the reasoning space remains bounded
 
 ---
 
@@ -545,31 +297,23 @@ to stay synchronized with the physical world.
 
 ---
 
-# License
-
-TBD
-
----
-
 # Related Concepts
 
 - constrained reasoning
 - attention routing
 - belief world modeling
 - executable world representations
-- verification-first reasoning
 - world-grounded AI
+- verification-first reasoning
+
+---
 
 # Support
 
 Independent research survives because ideas spread.
 
-If this changed how you think about reasoning.
+If this changed how you think about reasoning:
 
-<br>
-
-<a href="https://www.buymeacoffee.com/walao81Z"><img src="https://img.buymeacoffee.com/button-api/?text=Support the idea&emoji=🚀&slug=walao81Z&button_colour=40DCA5&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" /></a>
-
-<br>
+<a href="https://www.buymeacoffee.com/walao81Z"><img src="https://img.buymeacoffee.com/button-api/?text=Support%20the%20idea&emoji=%F0%9F%9A%80&slug=walao81Z&button_colour=40DCA5&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" /></a>
 
 I believe good reasoning is worth a fortune.
