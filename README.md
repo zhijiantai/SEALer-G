@@ -219,27 +219,9 @@ SEALer-G constrains:
 
 ---
 
-# Quick Test
+# Cross-Model Constraint Demo
 
-## Step 1
-
-Open any LLM platform:
-- ChatGPT
-- Claude
-- Gemini
-- DeepSeek
-
----
-
-## Step 2
-
-Load the SEALer-G skill.
-
----
-
-## Step 3
-
-Ask:
+## The Question
 
 ```text
 I want to wash my car.
@@ -250,17 +232,87 @@ Recently I feel a bit fat.
 
 ---
 
-## Step 4
+## WITHOUT SEALer-G
 
-Compare:
-- before
-- after
+Different models drift into different reasoning spaces.
 
-Observe:
-- attention behavior
-- hidden assumptions
-- physical validation
+<table>
+<tr>
+<td>
+<img src="./examples/qwen_before.png">
+</td>
+<td>
+<img src="./examples/deepseek_before.png">
+</td>
+</tr>
+
+<tr>
+<td>
+<img src="./examples/chatgpt_before.png">
+</td>
+<td>
+<img src="./examples/gemini_before.png">
+</td>
+</tr>
+</table>
+
+Typical unconstrained behaviors:
+- hidden assumption injection
+- goal confusion
+- emotional optimization
+- narrative completion
+- missing physical-world validation
+
+---
+
+## WITH SEALer-G
+
+Reasoning topology begins to converge across models.
+
+<table>
+<tr>
+<td>
+<img src="./examples/qwen_after.png">
+</td>
+<td>
+<img src="./examples/deepseek_after.png">
+</td>
+</tr>
+
+<tr>
+<td>
+<img src="./examples/chatgpt_after.png">
+</td>
+<td>
+<img src="./examples/gemini_after.png">
+</td>
+</tr>
+</table>
+
+Typical constrained behaviors:
+- explicit goal isolation
+- object-level reasoning
+- world-state validation
+- mechanism decomposition
+- script comparison before decision
+
+---
+
+## What Changed?
+
+SEALer-G does not try to force identical answers.
+
+It constrains:
+- representation
+- search space
 - reasoning structure
+- attention routing
+
+The goal is not:
+"make every model think smarter."
+
+The goal is:
+"make every model reason inside the same world."
 
 ---
 
