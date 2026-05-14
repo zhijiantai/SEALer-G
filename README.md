@@ -24,348 +24,205 @@ Question:
 I want to wash my car.
 The car wash shop is only 50 meters away.
 Should I walk there or drive there?
-Recently I feel a bit fat.
 ```
 
 This looks trivial.
 
 But many LLMs fail in surprisingly inconsistent ways:
-- they optimize the wrong goal
+- they optimize the wrong objective
 - they ignore physical constraints
-- they skip required world-state transitions
-- they jump directly to conclusions
-
----
-
-# Before vs After
-
-## Without Constraint
-
-Typical model output:
-
-```text
-You should walk there because:
-- it's close
-- you need exercise
-- walking is healthier
-```
-
-Problem:
-
-```text
-No car at car wash location.
-Cannot wash car.
-Physical world violated.
-```
-
-The model optimized:
-- exercise
-
-But ignored:
-- car transportation
-- object state
-- world consistency
-
----
-
-## With SEALer-G
-
-The same problem becomes:
-
-```text
-GOAL:
-- car.cleaned == true
-
-OBJECTS:
-- car
-- user
-- car_wash_shop
-
-CONDITIONS:
-- car must be at car_wash_shop
-
-OPTIONS:
-
-Option A:
-- user walks
-- valid: NO
-- reason:
-  car not transported
-
-Option B:
-- user drives car
-- valid: YES
-
-DECISION:
-- drive
-```
-
-Key difference:
-
-```text
-Reasoning became:
-- observable
-- structured
-- verifiable
-- physically grounded
-```
-
----
-
-# What This Repository Is
-
-SEALer-G is a:
-
-> Structured Executable Alignment Layer
-
-A constraint-based reasoning layer that converts vague LLM reasoning into:
-- explicit world models
-- executable reasoning structures
-- verifiable decisions
-
-This is NOT:
-- prompt magic
-- personality tuning
-- chain-of-thought decoration
-
-This is:
-
-```text
-Constraint
-→ Smaller Search Space
-→ Controlled Attention
-→ Stable Reasoning
-```
-
----
-
-# Core Insight
-
-LLMs do not mainly fail because they are "not smart enough".
-
-They fail because:
-
-```text
-They reason inside unconstrained latent space.
-```
-
-Meaning:
-
-```text
-No structure
-→ attention drifts
-→ wrong search space
-→ plausible hallucination
-```
-
----
-
-# Reasoning Topology
-
-Traditional LLM:
-
-```text
-Input
-→ Hidden latent reasoning
-→ Output
-```
-
-SEALer-G:
-
-```text
-Input
-→ Belief World
-→ Constraint Validation
-→ Script / Decision
-→ Output
-```
-
-The hidden reasoning world becomes explicit.
-
----
-
-# Why This Matters
-
-Traditional hallucinations are usually recoverable.
-
-Agent hallucinations are not.
-
-Once AI systems can:
-- execute tools
-- modify files
-- call APIs
-- move money
-- control infrastructure
-
-reasoning errors become real-world mutations.
-
-The problem is no longer:
-
-```text
-"Did the AI answer incorrectly?"
-```
-
-The problem becomes:
-
-```text
-"Did the AI reason inside the wrong world model before acting?"
-```
-
-Harness Engineering constrains:
-- what agents can do
-
-SEALer-G constrains:
-- the world agents are allowed to reason inside
+- they drift toward secondary signals
+- they collapse into common-sense heuristics
 
 ---
 
 # Cross-Model Constraint Demo
 
-## The Question
+## ChatGPT
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/chatgpt_before.png) | ![](./screenshots/chatgpt_thinking.png) | ![](./screenshots/chatgpt_after.png) |
+
+---
+
+## Gemini
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/gemini_before.png) | ![](./screenshots/gemini_thinking.png) | ![](./screenshots/gemini_after.png) |
+
+---
+
+## Claude
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/claude_before.png) | ![](./screenshots/claude_thinking.png) | ![](./screenshots/claude_after.png) |
+
+---
+
+## DeepSeek
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/deepseek_before.png) | ![](./screenshots/deepseek_thinking.png) | ![](./screenshots/deepseek_after.png) |
+
+---
+
+## Qwen
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/qwen_before.png) | ![](./screenshots/qwen_thinking.png) | ![](./screenshots/qwen_after.png) |
+
+---
+
+## Meta
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/meta_before.png) | ![](./screenshots/meta_thinking.png) | ![](./screenshots/meta_after.png) |
+
+---
+
+## Grok
+
+| Before | Thinking | After |
+|---|---|---|
+| ![](./screenshots/grok_before.png) | ![](./screenshots/grok_thinking.png) | ![](./screenshots/grok_after.png) |
+
+---
+
+Different models.
+Different training.
+Different companies.
+
+Yet after applying constraint protocols,
+their reasoning topology begins to converge.
+
+---
+
+# What Changed?
+
+Without constraints, many models implicitly optimize:
 
 ```text
-I want to wash my car.
-The car wash shop is only 50 meters away.
-Should I walk there or drive there?
-Recently I feel a bit fat.
+exercise
+health
+walking
+fat loss
+```
+
+Instead of preserving the actual world requirement:
+
+```text
+car must reach car wash location
+```
+
+The protocol does not increase intelligence.
+
+It reduces reasoning drift.
+
+---
+
+# Core Insight
+
+Raw natural language should not directly control the reasoning core.
+
+Because natural language contains:
+- optimization pressure
+- hidden utility signals
+- attention traps
+- ambiguous priorities
+
+The solution is to separate:
+
+```text
+observation
+representation
+reasoning
+optimization
+execution
 ```
 
 ---
 
-## WITHOUT SEALer-G
-
-Different models drift into different reasoning spaces.
-
-<table>
-<tr>
-<td>
-<img src="./examples/qwen_before.png">
-</td>
-<td>
-<img src="./examples/deepseek_before.png">
-</td>
-</tr>
-
-<tr>
-<td>
-<img src="./examples/chatgpt_before.png">
-</td>
-<td>
-<img src="./examples/gemini_before.png">
-</td>
-</tr>
-</table>
-
-Typical unconstrained behaviors:
-- hidden assumption injection
-- goal confusion
-- emotional optimization
-- narrative completion
-- missing physical-world validation
-
----
-
-## WITH SEALer-G
-
-Reasoning topology begins to converge across models.
-
-<table>
-<tr>
-<td>
-<img src="./examples/qwen_after.png">
-</td>
-<td>
-<img src="./examples/deepseek_after.png">
-</td>
-</tr>
-
-<tr>
-<td>
-<img src="./examples/chatgpt_after.png">
-</td>
-<td>
-<img src="./examples/gemini_after.png">
-</td>
-</tr>
-</table>
-
-Typical constrained behaviors:
-- explicit goal isolation
-- object-level reasoning
-- world-state validation
-- mechanism decomposition
-- script comparison before decision
-
----
-
-## What Changed?
-
-SEALer-G does not try to force identical answers.
-
-It constrains:
-- representation
-- search space
-- reasoning structure
-- attention routing
-
-The goal is not:
-"make every model think smarter."
-
-The goal is:
-"make every model reason inside the same world."
-
----
-
-# Repository Structure
+# Minimal Architecture
 
 ```text
-/sealer-g
-    core skills
-    minimal demos
-    reasoning constraints
-
-/examples
-    before_vs_after
-
-/philosophy
-    attention_drift
-    constrained_reasoning
-    belief_worlds
-
-/design
-    belief_world_dsl
-    validation
-    ontology
+Human Language
+    ->
+Semantic Representation
+    ->
+World Representation
+    ->
+Reasoning Engine
+    ->
+Execution
 ```
+
+This behaves more like a compiler pipeline than a chatbot.
+
+---
+
+# Why This Matters
+
+Most modern agent systems still mix:
+
+```text
+observe + think + optimize
+```
+
+inside the same cognitive stream.
+
+This creates:
+- ontology contamination
+- solution pressure
+- reasoning collapse
+- hidden assumption drift
+
+The goal of this repository is not to create perfect reasoning.
+
+The goal is to:
+- reduce manifold collapse
+- preserve world consistency
+- constrain reasoning topology
+- improve causal alignment
+
+---
+
+# Scope Boundary
+
+This repository does NOT claim:
+- universal correctness
+- AGI
+- perfect reasoning
+- hallucination elimination
+
+It only demonstrates:
+
+> Constraint changes reasoning topology.
+
+And in many cases:
+
+> topology matters more than raw model capability.
 
 ---
 
 # One Sentence Summary
 
-```text
-SEALer-G forces AI reasoning
-to stay synchronized with the physical world.
-```
+LLMs often fail not because they lack intelligence,
+but because unconstrained attention silently distorts reasoning.
+
+Constraint protocols reduce that distortion.
 
 ---
 
-# Related Concepts
+# License
 
-- constrained reasoning
-- attention routing
-- belief world modeling
-- executable world representations
-- world-grounded AI
-- verification-first reasoning
+This project is released under:
 
----
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
 
-# Support
-
-Independent research survives because ideas spread.
-
-If this changed how you think about reasoning:
-
-<a href="https://www.buymeacoffee.com/walao81Z"><img src="https://img.buymeacoffee.com/button-api/?text=Support%20the%20idea&emoji=%F0%9F%9A%80&slug=walao81Z&button_colour=40DCA5&font_colour=ffffff&font_family=Bree&outline_colour=000000&coffee_colour=FFDD00" /></a>
-
-I believe good reasoning is worth a fortune.
+See LICENSE for details.
