@@ -1,6 +1,7 @@
 <p align="center">
   <img src="./assets/logo.png" width="120">
 </p>
+
 # SEALer-G
 ## Constraint-First Reasoning Runtime
 
