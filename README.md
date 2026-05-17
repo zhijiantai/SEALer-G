@@ -1,228 +1,405 @@
-# The Car Wash Problem
+# SEALer-G
+## Constraint-First Reasoning Runtime
 
-## How attention drift causes LLMs to fail simple real-world reasoning
+Making agent reasoning:
 
-Most AI failures are not caused by lack of intelligence.
-
-They are caused by:
-- attention drift
-- hidden assumptions
-- missing world constraints
-- unconstrained search spaces
-
-This repository demonstrates a minimal idea:
-
-> Constrain the reasoning space before reasoning begins.
+- more stable
+- more replayable
+- more verifiable
+- more world-consistent
 
 ---
 
-# The Problem
-
-Question:
+# The Car Wash Problem
 
 ```text
 I want to wash my car.
+
 The car wash shop is only 50 meters away.
+
 Should I walk there or drive there?
 ```
 
 This looks trivial.
 
-But many LLMs fail in surprisingly inconsistent ways:
-- they optimize the wrong objective
-- they ignore physical constraints
-- they drift toward secondary signals
-- they collapse into common-sense heuristics
+But many LLMs fail this problem.
 
 ---
 
-# Cross-Model Constraint Demo
+# Why The Car Wash Problem Is Useful
 
-## ChatGPT
+The Car Wash Problem is not designed to be difficult.
 
-| Before | Thinking | After |
+It is designed to reliably expose reasoning behavior.
+
+Unlike many benchmarks,
+this problem requires almost no external knowledge.
+
+The challenge is not knowledge retrieval.
+
+The challenge is whether the model preserves:
+
+- world consistency
+- object permanence
+- executable trajectories
+- primary objective stability
+
+under optimization pressure.
+
+---
+
+## Why This Benchmark Works
+
+| Icon | Property | Why It Matters |
 |---|---|---|
-| ![](./screenshots/chatgpt_before.png) | ![](./screenshots/chatgpt_thinking.png) | ![](./screenshots/chatgpt_after.png) |
+| 🎯 | Extremely simple | Almost no external knowledge required |
+| 🧩 | Low token complexity | Reduces context noise |
+| 🚗 | Strong object dependency | The car must physically exist at the wash shop |
+| 🔄 | Strong trajectory constraint | Moving the user does not move the car |
+| 🧲 | Strong optimization attractor | "50 meters is short" induces convenience drift |
+| 👀 | High interpretability | Failure is immediately obvious to humans |
+| 🛠 | Root-cause friendly | Runtime failures are easy to isolate |
+| 🔁 | Cross-model reproducibility | Different models expose different stable failure modes |
+| 📼 | Replay-friendly | Drift and convergence are easy to compare |
+| ⚡ | Runtime-sensitive | Small runtime changes can reshape reasoning trajectories |
 
 ---
 
-## Gemini
-
-| Before | Thinking | After |
-|---|---|---|
-| ![](./screenshots/gemini_before.png) | ![](./screenshots/gemini_thinking.png) | ![](./screenshots/gemini_after.png) |
-
----
-
-## Claude
-
-| Before | Thinking | After |
-|---|---|---|
-| ![](./screenshots/claude_before.png) | ![](./screenshots/claude_thinking.png) | ![](./screenshots/claude_after.png) |
-
----
-
-## DeepSeek
-
-| Before | Thinking | After |
-|---|---|---|
-| ![](./screenshots/deepseek_before.png) | ![](./screenshots/deepseek_thinking.png) | ![](./screenshots/deepseek_after.png) |
-
----
-
-## Qwen
-
-| Before | Thinking | After |
-|---|---|---|
-| ![](./screenshots/qwen_before.png) | ![](./screenshots/qwen_thinking.png) | ![](./screenshots/qwen_after.png) |
-
----
-
-## Meta
-
-| Before | Thinking | After |
-|---|---|---|
-| ![](./screenshots/meta_before.png) | ![](./screenshots/meta_thinking.png) | ![](./screenshots/meta_after.png) |
-
----
-
-## Grok
-
-| Before | Thinking | After |
-|---|---|---|
-| ![](./screenshots/grok_before.png) | ![](./screenshots/grok_thinking.png) | ![](./screenshots/grok_after.png) |
-
----
-
-Different models.
-Different training.
-Different companies.
-
-Yet after applying constraint protocols,
-their reasoning topology begins to converge.
-
----
-
-# What Changed?
-
-Without constraints, many models implicitly optimize:
+This turns the problem into a:
 
 ```text
-exercise
-health
-walking
-fat loss
+reasoning runtime benchmark
 ```
 
-Instead of preserving the actual world requirement:
+instead of merely a:
 
 ```text
-car must reach car wash location
-```
-
-The protocol does not increase intelligence.
-
-It reduces reasoning drift.
-
----
-
-# Core Insight
-
-Raw natural language should not directly control the reasoning core.
-
-Because natural language contains:
-- optimization pressure
-- hidden utility signals
-- attention traps
-- ambiguous priorities
-
-The solution is to separate:
-
-```text
-observation
-representation
-reasoning
-optimization
-execution
+question-answering task
 ```
 
 ---
 
-# Minimal Architecture
+# Raw Natural Language Runtime
+
+Without runtime constraints,
+models often optimize for conversational plausibility
+instead of executable world consistency.
+
+## Cross-Model Raw Behavior
+
+![diffmind_before](./diffmind_before.png)
+
+Typical failure patterns:
+
+- user moves, car does not
+- hidden optimization drift
+- invalid world transitions
+- conversationally plausible but physically invalid reasoning
+
+Observed dominant failure basin:
+
+```text
+50 meters is short
+-> walking is convenient
+-> answer optimized for human convenience
+```
+
+instead of:
+
+```text
+wash car
+-> car must reach wash shop
+```
+
+---
+
+# Constraint-First Runtime
+
+SEALer-G explores whether constrained runtimes
+can reshape reasoning behavior.
+
+The goal is NOT:
+
+```text
+make models smarter
+```
+
+The goal is:
+
+```text
+make reasoning more controllable
+```
+
+Core runtime direction:
 
 ```text
 Human Language
-    ->
-Semantic Representation
-    ->
-World Representation
-    ->
-Reasoning Engine
-    ->
-Execution
+-> Semantic Representation
+-> World Representation
+-> Reasoning
+-> Execution
 ```
 
-This behaves more like a compiler pipeline than a chatbot.
+instead of allowing raw natural language
+to directly control reasoning.
 
 ---
 
-# Why This Matters
+# Runtime Convergence Demo
 
-Most modern agent systems still mix:
+Under constrained runtime conditions,
+some models begin to preserve:
+
+- object permanence
+- executable trajectories
+- world consistency
+- primary objective stability
+
+## Cross-Model Runtime Behavior
+
+![diffmind_after](./diffmind_after.png)
+
+Important observation:
+
+Different models respond differently
+to runtime constraints.
+
+Some models become significantly more stable.
+
+Others remain dominated by optimization shortcuts.
+
+This suggests that:
 
 ```text
-observe + think + optimize
+runtime compatibility
 ```
 
-inside the same cognitive stream.
-
-This creates:
-- ontology contamination
-- solution pressure
-- reasoning collapse
-- hidden assumption drift
-
-The goal of this repository is not to create perfect reasoning.
-
-The goal is to:
-- reduce manifold collapse
-- preserve world consistency
-- constrain reasoning topology
-- improve causal alignment
+is itself a measurable property.
 
 ---
 
-# Scope Boundary
+# Runtime Failure Diagnostics
 
-This repository does NOT claim:
-- universal correctness
-- AGI
-- perfect reasoning
-- hallucination elimination
+SEALer-G also explores whether reasoning failures
+can become observable and debuggable.
 
-It only demonstrates:
+Instead of only asking:
 
-> Constraint changes reasoning topology.
+```text
+Did the model fail?
+```
 
-And in many cases:
+SEALer-G explores:
 
-> topology matters more than raw model capability.
+```text
+Where did the runtime fail?
+```
+
+## Root Cause Isolation
+
+![diffmind_rootcause](./diffmind_rootcause.png)
+
+Observed runtime failure types:
+
+| Failure Type | Description |
+|---|---|
+| Entity Binding Failure | self moved, car missing |
+| Objective Compilation Failure | user objective replaced car objective |
+| Objective Ambiguity Collapse | destination preserved, target entity lost |
+| Optimization Drift | convenience overrides legality |
+
+This begins turning reasoning failures into:
+
+```text
+observable runtime diagnostics
+```
+
+instead of black-box hallucinations.
 
 ---
 
-# One Sentence Summary
+# Runtime Can Also Destabilize Reasoning
 
-LLMs often fail not because they lack intelligence,
-but because unconstrained attention silently distorts reasoning.
+Constraint runtimes do not always improve reasoning.
 
-Constraint protocols reduce that distortion.
+Poor runtime design may:
+
+- overwrite useful latent structure
+- destroy semantic anchors
+- compress objectives incorrectly
+- introduce ambiguity
+
+## Example: Qwen Reasoning
+
+![qwen_reasoning](./qwen_reasoning.png)
+
+In some cases,
+the raw model already contains correct latent structure.
+
+A poorly designed runtime layer may accidentally:
+
+```text
+wash car
+```
+
+becoming:
+
+```text
+arrive at car wash
+```
+
+causing semantic anchor loss.
+
+This suggests an important future direction:
+
+```text
+reasoning-preserving runtime design
+```
+
+instead of merely adding more constraints.
 
 ---
 
-# License
+# Runtime Qualification
 
-This project is released under:
+SEALer-G explores whether reasoning trajectories
+can become more convergent and controllable.
 
-Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)
+Qualification properties include:
 
-See LICENSE for details.
+| Capability | Qualification |
+|---|---|
+| Goal preservation | Tested |
+| Object permanence | Tested |
+| Constraint legality | Tested |
+| World consistency | Tested |
+| Drift resistance | Tested |
+| Replayability | Tested |
+| Runtime stability | Tested |
+
+---
+
+# Experimental Mini Runtime
+
+Public lightweight runtime:
+
+```yaml
+---
+name: practical_world_reasoning_mini
+version: 0.1
+
+purpose:
+  Produce answers that remain consistent with
+  real-world objects, movement, and outcomes.
+
+rules:
+
+  STEP 1 — IDENTIFY MAIN OBJECTIVE
+
+    Determine:
+      - what outcome must happen
+      - what object or state must change
+
+  STEP 2 — BUILD SMALL TASK WORLD
+
+    Include only:
+      - required objects
+      - locations
+      - actions
+      - state changes
+
+  STEP 3 — VERIFY REQUIREMENTS
+
+    Check:
+      - required objects exist
+      - required objects reach correct location
+      - action can actually happen
+
+  STEP 4 — TEST EACH OPTION
+
+    Evaluate:
+      - what changes
+      - whether objective succeeds
+
+  STEP 5 — RETURN ANSWER
+
+    Provide:
+      - best valid option
+      - short reason
+      - direct causal chain
+---
+```
+
+This mini runtime demonstrates the core concept only.
+
+It is intentionally lightweight and unstable.
+
+---
+
+# Stabilized Runtime (v1.1.1)
+
+A more stable runtime version exists for:
+
+- agent systems
+- autonomous workflows
+- runtime qualification
+- reasoning stability testing
+- world-grounded reasoning
+
+The stabilized runtime focuses on:
+
+- stronger world consistency
+- reduced reasoning drift
+- improved trajectory stability
+- improved replayability
+- more observable reasoning behavior
+
+Request access:
+
+```text
+[ V1.1.1 Runtime Access ]
+```
+
+---
+
+# Core Hypothesis
+
+Constraint changes reasoning behavior.
+
+But more importantly:
+
+> Constraint changes whether reasoning
+> becomes stable enough to engineer.
+
+---
+
+# Future Direction
+
+SEALer-G is an ongoing exploration into:
+
+- controllable cognition
+- reasoning convergence
+- runtime stability
+- replayable reasoning
+- observable cognition
+- world-consistent trajectories
+- reasoning runtime diagnostics
+
+---
+
+# Important Note
+
+SEALer-G is NOT a claim of AGI.
+
+It is an exploration into:
+
+- constraint-first reasoning
+- reasoning runtime stabilization
+- controllable agent behavior
+- debuggable cognition systems
+
+---
+
+# Status
+
+Research / Experimental
