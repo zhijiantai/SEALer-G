@@ -87,7 +87,7 @@ instead of executable world consistency.
 
 ## Cross-Model Raw Behavior
 
-![diffmind_before](./diffmind_before.png)
+![diffmind_before](./screenshots/diffmind_before.png)
 
 Typical failure patterns:
 
@@ -157,7 +157,7 @@ some models begin to preserve:
 
 ## Cross-Model Runtime Behavior
 
-![diffmind_after](./diffmind_after.png)
+![diffmind_after](./screenshots/diffmind_after.png)
 
 Important observation:
 
@@ -197,7 +197,7 @@ Where did the runtime fail?
 
 ## Root Cause Isolation
 
-![diffmind_rootcause](./diffmind_rootcause.png)
+![diffmind_rootcause](./screenshots/diffmind_rootcause.png)
 
 Observed runtime failure types:
 
@@ -231,7 +231,7 @@ Poor runtime design may:
 
 ## Example: Qwen Reasoning
 
-![qwen_reasoning](./qwen_reasoning.png)
+![qwen_reasoning](./screenshots/qwen_reasoning.png)
 
 In some cases,
 the raw model already contains correct latent structure.
