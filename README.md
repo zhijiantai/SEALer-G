@@ -361,7 +361,7 @@ The stabilized runtime focuses on:
 Request access:
 
 ```text
-[ V1.1.1 Runtime Access ]
+Coming soon
 ```
 
 ---
