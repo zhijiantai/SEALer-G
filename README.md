@@ -264,25 +264,6 @@ instead of merely adding more constraints.
 
 ---
 
-# Runtime Qualification
-
-SEALer-G explores whether reasoning trajectories
-can become more convergent and controllable.
-
-Qualification properties include:
-
-| Capability | Qualification |
-|---|---|
-| Goal preservation | Tested |
-| Object permanence | Tested |
-| Constraint legality | Tested |
-| World consistency | Tested |
-| Drift resistance | Tested |
-| Replayability | Tested |
-| Runtime stability | Tested |
-
----
-
 # Experimental Mini Runtime
 
 Public lightweight runtime:
@@ -337,32 +318,6 @@ rules:
 This mini runtime demonstrates the core concept only.
 
 It is intentionally lightweight and unstable.
-
----
-
-# Stabilized Runtime (v1.1.1)
-
-A more stable runtime version exists for:
-
-- agent systems
-- autonomous workflows
-- runtime qualification
-- reasoning stability testing
-- world-grounded reasoning
-
-The stabilized runtime focuses on:
-
-- stronger world consistency
-- reduced reasoning drift
-- improved trajectory stability
-- improved replayability
-- more observable reasoning behavior
-
-Request access:
-
-```text
-Coming soon
-```
 
 ---
 
